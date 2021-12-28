@@ -149,14 +149,14 @@ main {
 /* KEEP THIS FOR TEMPLATE LATER PROJECTS  */
 
 .blackjack-container {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   width: 75%;
   margin: 0 auto;
   text-align: center;
 }
 
 .flex-blackjack-row-1, .flex-blackjack-row-2, .flex-blackjack-row-3 {
-  border: 1px solid red;
+  /* border: 1px solid red; */
   display: flex;
   padding: 10px;
   flex-wrap: wrap;
@@ -170,7 +170,7 @@ main {
 }
 
 .flex-blackjack-row-1 div {
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   padding: 10px;
   height: 350px;
   text-align: center;
