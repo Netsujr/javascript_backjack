@@ -147,3 +147,36 @@ main {
 /* KEEP THIS FOR TEMPLATE LATER PROJECTS  */
 /* KEEP THIS FOR TEMPLATE LATER PROJECTS  */
 /* KEEP THIS FOR TEMPLATE LATER PROJECTS  */
+
+.blackjack-container {
+  border: 1px solid black;
+  width: 75%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.flex-blackjack-row-1, .flex-blackjack-row-2, .flex-blackjack-row-3 {
+  border: 1px solid red;
+  display: flex;
+  padding: 10px;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.flex-blackjack-row-1 {
+  background: url(./images/bjbg.jpeg) center;
+  color: white;
+}
+
+.flex-blackjack-row-2 {
+  background: url(./images/bjbg.jpeg);
+}
+
+.flex-blackjack-row-1 div {
+  border: 1px solid blue;
+  padding: 10px;
+  height: 350px;
+  text-align: center;
+  flex: 1;
+}
