@@ -30,7 +30,7 @@ function Hit() {
 
 function showCard(activePlayer) {
   let cardImage = document.createElement('img');
-  cardImage.src = 'images/cards/5.png';
+  cardImage.src = 'images/cards/Q.png';
   document.querySelector(activePlayer['div']).appendChild(cardImage);
   hitSound.play();
 }
@@ -44,5 +44,9 @@ function Stand() {
 
 function Deal() {
   // console.log('Deal was Hit');
+  let yourImages = document.querySelector('#your-box').querySelectorAll('img');
 
+  for (image = 0; image < yourImages.length; image++) {
+    yourImages[image].remove();
+  }
 }
