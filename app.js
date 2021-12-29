@@ -9,6 +9,8 @@ let blackjackGame = {
 const YOU = blackjackGame['you'];
 const DEALER = blackjackGame['dealer'];
 const hitSound = new Audio('sounds/swish.m4a');
+const winSound = new Audio('sounds/cash.mp3');
+const loseSound = new Audio('sounds/aww.mp3');
 
 // *************** Listeners ******************
 
@@ -35,7 +37,8 @@ function Stand() {
 }
 
 function Deal() {
-  decideWinner();
+  // showResult(decideWinner());
+  // decideWinner();
   // console.log('Deal was Hit');
   let yourImages = document.querySelector('#your-box').querySelectorAll('img');
   let dealerImages = document.querySelector('#dealer-box').querySelectorAll('img');
@@ -137,4 +140,27 @@ function decideWinner() {
   }
   console.log('winner is', winner);
   return winner;
+}
+
+function showResult(winner, gif) {
+  let message, messageColor;
+
+  if (winner === YOU) {
+    message = "You Won!";
+    messageColor = "green";
+    winSound.play();
+
+  } else if (winner === DEALER) {
+    message = "You Lost!";
+    messageColor = "red";
+    loseSound.play();
+
+  } else {
+    message = "Its a Draw!";
+    messageColor = "orange";
+    loseSound.play();
+  }
+
+document.querySelector('#blackjack-result'). textContent = message;
+document.querySelector('#blackjack-result'). style.color = messageColor;
 }
