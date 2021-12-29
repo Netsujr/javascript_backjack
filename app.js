@@ -26,6 +26,7 @@ document.querySelector('#deal-button').addEventListener('click', Deal);
 function Hit() {
   // console.log('Hit was Hit');
   showCard(YOU);
+  // showCard(DEALER);
 }
 
 function showCard(activePlayer) {
@@ -45,8 +46,13 @@ function Stand() {
 function Deal() {
   // console.log('Deal was Hit');
   let yourImages = document.querySelector('#your-box').querySelectorAll('img');
+  let dealerImages = document.querySelector('#dealer-box').querySelectorAll('img');
 
   for (image = 0; image < yourImages.length; image++) {
     yourImages[image].remove();
+  }
+
+  for (image = 0; image < dealerImages.length; image++) {
+    dealerImages[image].remove();
   }
 }
