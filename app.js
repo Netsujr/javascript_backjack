@@ -30,7 +30,7 @@ function Hit() {
 
 function showCard(activePlayer) {
   let cardImage = document.createElement('img');
-  cardImage.src = 'images/cards/Q.png';
+  cardImage.src = 'images/cards/5.png';
   document.querySelector(activePlayer['div']).appendChild(cardImage);
   hitSound.play();
 }

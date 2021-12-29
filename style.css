@@ -193,4 +193,6 @@ table th {
 img {
   height: 100px;
   margin: 10px;
+  background: white;
+  border-radius: 5px;
 }
