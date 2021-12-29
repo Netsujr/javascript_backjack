@@ -6,7 +6,7 @@ let blackjackGame = {
   'cardsMap': { '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': [1, 11] },
   'wins': 0,
   'losses': 0,
-  'draw': 0,
+  'draws': 0,
 
   // 'win': ['bman', 'dk', 'dk2', 'dk3', 'kirby', 'kirby2', 'link', 'marioK'],
   // 'lose': [],
@@ -139,7 +139,7 @@ function decideWinner() {
       // console.log('you lose');
 
     } else if (player === dealer) {
-      blackjackGame['draw']++;
+      blackjackGame['draws']++;
       // console.log('you drew');
     }
 
@@ -149,7 +149,7 @@ function decideWinner() {
     // console.log('you lost');
 
   } else if (player && dealer > 21) {
-    blackjackGame['draw']++;
+    blackjackGame['draws']++;
     // console.log('you both Bust');
   }
   // console.log('winner is', winner);
@@ -161,16 +161,19 @@ function showResult(winner) {
   let message, messageColor;
 
   if (winner === YOU) {
+    document.querySelector('#wins').textContent = blackjackGame['wins'];
     message = `You Won!`;
     messageColor = "green";
     winSound.play();
 
   } else if (winner === DEALER) {
+    document.querySelector('#losses').textContent = blackjackGame['losses'];
     message = "You Lost!";
     messageColor = "red";
     loseSound.play();
 
   } else {
+    document.querySelector('#draws').textContent = blackjackGame['draws'];
     message = "Its a Draw!";
     messageColor = "orange";
     loseSound.play();
