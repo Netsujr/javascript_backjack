@@ -31,10 +31,11 @@ function Hit() {
 
 function Stand() {
   // console.log('Stand was Hit');
-
+  dealerLogic();
 }
 
 function Deal() {
+  decideWinner();
   // console.log('Deal was Hit');
   let yourImages = document.querySelector('#your-box').querySelectorAll('img');
   let dealerImages = document.querySelector('#dealer-box').querySelectorAll('img');
@@ -98,4 +99,42 @@ function showScore(activePlayer) {
   } else {
     document.querySelector(activePlayer['scoreSpan']).textContent = activePlayer['score'];
   }
+}
+
+function dealerLogic() {
+  let card = randomCard();
+  showCard(card, DEALER);
+  updateScore(card, DEALER);
+  showScore(DEALER);
+}
+
+function decideWinner() {
+  let winner;
+  let player = (YOU['score']);
+  let dealer = (DEALER['score']);
+
+
+  if (player <= 21) {
+
+    if (player > dealer || dealer > 21) {
+      winner = YOU;
+      console.log('you win');
+
+    } else if (player < dealer) {
+      winner = DEALER;
+      console.log('you lose');
+
+    } else if (player === dealer) {
+      console.log('you drew');
+    }
+
+  } else if (player > 21 && dealer <= 21) {
+    winner = DEALER;
+    console.log('you lost');
+
+  } else if (player && dealer > 21) {
+    console.log('you both Bust');
+  }
+  console.log('winner is', winner);
+  return winner;
 }
