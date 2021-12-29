@@ -46,6 +46,15 @@ function Deal() {
   for (image = 0; image < dealerImages.length; image++) {
     dealerImages[image].remove();
   }
+
+  YOU['score'] = 0;
+  DEALER['score'] = 0;
+
+  document.querySelector('#your-score').textContent = 0;
+  document.querySelector('#your-score').style.color = 'white';
+  document.querySelector('#dealer-score').textContent = 0;
+  document.querySelector('#dealer-score').style.color = 'white';
+
 }
 
 
@@ -53,10 +62,12 @@ function Deal() {
 // *************** Logic Functions ******************
 
 function showCard(card, activePlayer) {
-  let cardImage = document.createElement('img');
-  cardImage.src = `images/cards/${card}.png`;
-  document.querySelector(activePlayer['div']).appendChild(cardImage);
-  hitSound.play();
+  if (activePlayer['score'] <= 21) {
+    let cardImage = document.createElement('img');
+    cardImage.src = `images/cards/${card}.png`;
+    document.querySelector(activePlayer['div']).appendChild(cardImage);
+    hitSound.play();
+  }
 }
 
 function randomCard() {
@@ -78,5 +89,10 @@ function updateScore(card, activePlayer) {
 }
 
 function showScore(activePlayer) {
-  document.querySelector(activePlayer['scoreSpan']).textContent = activePlayer['score'];
+  if (activePlayer['score'] > 21) {
+    document.querySelector(activePlayer['scoreSpan']).textContent = 'BUST!';
+    document.querySelector(activePlayer['scoreSpan']).style.color = 'red';
+  } else {
+    document.querySelector(activePlayer['scoreSpan']).textContent = activePlayer['score'];
+  }
 }
