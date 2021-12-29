@@ -52,8 +52,11 @@ function Deal() {
 
   document.querySelector('#your-score').textContent = 0;
   document.querySelector('#your-score').style.color = 'white';
+
   document.querySelector('#dealer-score').textContent = 0;
   document.querySelector('#dealer-score').style.color = 'white';
+
+  // /will probably add gif removal here!
 
 }
 
