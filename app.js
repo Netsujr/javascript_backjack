@@ -13,72 +13,54 @@ let blackjackGame = {
   // 'lose': [],
   // 'draw': []
 };
-
 const YOU = blackjackGame['you'];
 const DEALER = blackjackGame['dealer'];
 const hitSound = new Audio('sounds/swish.m4a');
 const winSound = new Audio('sounds/cash.mp3');
 const loseSound = new Audio('sounds/aww.mp3');
-
 // *************** Listeners ******************
-
 document.querySelector('#hit-button').addEventListener('click', Hit);
 document.querySelector('#stand-button').addEventListener('click', Stand);
 document.querySelector('#deal-button').addEventListener('click', Deal);
-
 // *************** ButtonFunctions ******************
-
 function Hit() {
-  if (blackjackGame['isStand'] === false) {
-
+  if (blackjackGame['isStand'] === false && YOU["score"] < 21) {
     let card = randomCard();
     showCard(card, YOU);
     updateScore(card, YOU);
     showScore(YOU);
+  } else {
+    dealerLogic(); //making the hit button to call dealerLogic if the player goes bust
   }
 }
-
 function Stand() {
   // console.log('Stand was Hit');
   dealerLogic();
 }
-
 function Deal() {
   if (blackjackGame['turnsOver'] === true) {
     blackjackGame['isStand'] = false;
-
     let yourImages = document.querySelector('#your-box').querySelectorAll('img');
     let dealerImages = document.querySelector('#dealer-box').querySelectorAll('img');
-
     for (image = 0; image < yourImages.length; image++) {
       yourImages[image].remove();
     }
-
     for (image = 0; image < dealerImages.length; image++) {
       dealerImages[image].remove();
     }
-
     YOU['score'] = 0;
     DEALER['score'] = 0;
-
     document.querySelector('#your-score').textContent = 0;
     document.querySelector('#your-score').style.color = 'white';
-
     document.querySelector('#dealer-score').textContent = 0;
     document.querySelector('#dealer-score').style.color = 'white';
-
     document.querySelector('#blackjack-result').textContent = "Let's Play!";
     document.querySelector('#blackjack-result').style.color = 'black';
     blackjackGame['turnsOver'] = true;
     // /will probably add gif removal here!
   }
-
 }
-
-
-
 // *************** Logic Functions ******************
-
 function showCard(card, activePlayer) {
   if (activePlayer['score'] <= 21) {
     let cardImage = document.createElement('img');
@@ -87,12 +69,10 @@ function showCard(card, activePlayer) {
     hitSound.play();
   }
 }
-
 function randomCard() {
   let randomIndex = Math.floor(Math.random() * 13);
   return blackjackGame['cards'][randomIndex];
 }
-
 function updateScore(card, activePlayer) {
   // ACE logic, 1 or 11
   if (card === 'A') {
@@ -105,7 +85,6 @@ function updateScore(card, activePlayer) {
     activePlayer['score'] += blackjackGame['cardsMap'][card];
   }
 }
-
 function showScore(activePlayer) {
   if (activePlayer['score'] > 21) {
     document.querySelector(activePlayer['scoreSpan']).textContent = 'BUST!';
@@ -114,99 +93,86 @@ function showScore(activePlayer) {
     document.querySelector(activePlayer['scoreSpan']).textContent = activePlayer['score'];
   }
 }
-
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-
 async function dealerLogic() {
   blackjackGame['isStand'] = true;
-
-  while ((DEALER['score']) < 16 && blackjackGame['isStand'] === true) {
-    let card = randomCard();
-    showCard(card, DEALER);
-    updateScore(card, DEALER);
-    showScore(DEALER);
-    await sleep(800);
+  if (YOU['score'] < 21) //added logic here
+  {
+    while ((DEALER['score']) < 16 && blackjackGame['isStand'] === true) {
+      let card = randomCard();
+      showCard(card, DEALER);
+      updateScore(card, DEALER);
+      showScore(DEALER);
+      await sleep(800);
+    }
+    blackjackGame['turnsOver'] = true;
+    let winner = decideWinner();
+    showResult(winner);
+  } else { // and here
+    blackjackGame['turnsOver'] = true;
+    let winner = decideWinner(DEALER);
+    showResult(winner);
   }
-  blackjackGame['turnsOver'] = true;
-  let winner = decideWinner();
-  showResult(winner);
 }
-
 function decideWinner() {
   let winner;
   let player = (YOU['score']);
   let dealer = (DEALER['score']);
-
-
   if (player <= 21) {
-
     if (player > dealer || dealer > 21) {
       blackjackGame['wins']++;
       winner = YOU;
       // console.log('you win');
-
     } else if (player < dealer) {
       blackjackGame['losses']++;
       winner = DEALER;
       // console.log('you lose');
-
     } else if (player === dealer) {
       blackjackGame['draws']++;
       // console.log('you drew');
     }
-
   } else if (player > 21 && dealer <= 21) {
     blackjackGame['losses']++;
     winner = DEALER;
     // console.log('you lost');
-
-  } else if (player && dealer > 21) {
-    blackjackGame['draws']++;
-    // console.log('you both Bust');
+    // } else if (player && dealer > 21) {
+    //   blackjackGame['draws']++;
+    //   // console.log('you both Bust');
   }
   // console.log('winner is', winner);
   console.log(blackjackGame);
   return winner;
 }
-
 function showResult(winner) {
   let message, messageColor;
   if (blackjackGame['turnsOver'] === true) {
-
     if (winner === YOU) {
       document.querySelector('#wins').textContent = blackjackGame['wins'];
       message = `You Won!`;
       messageColor = "green";
       winSound.play();
-
     } else if (winner === DEALER) {
       document.querySelector('#losses').textContent = blackjackGame['losses'];
       message = "You Lost!";
       messageColor = "red";
       loseSound.play();
-
     } else {
       document.querySelector('#draws').textContent = blackjackGame['draws'];
       message = "Its a Draw!";
       messageColor = "orange";
       loseSound.play();
     }
-
     document.querySelector('#blackjack-result').textContent = message;
     document.querySelector('#blackjack-result').style.color = messageColor;
   }
-
 }
-
 // ************gifs************
-
 // function randomWinnerGif() {
 //   let randomIndex = Math.floor(Math.random() * 8);
 //   return blackjackGame['win'][randomIndex];
 // }
-
 // let gifImage = document.createElement('img');
 // let winGif = randomWinnerGif();
 // gifImage.src = `gifs/win/${gif}.gif`;
