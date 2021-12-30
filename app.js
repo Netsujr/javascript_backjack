@@ -17,6 +17,7 @@ let blackjackGame = {
 
 const YOU = blackjackGame['you'];
 const DEALER = blackjackGame['dealer'];
+let DRAW;
 const hitSound = new Audio('sounds/swish.m4a');
 const winSound = new Audio('sounds/cash.mp3');
 const loseSound = new Audio('sounds/aww.mp3');
@@ -82,12 +83,12 @@ function Deal() {
 
 // *************** Logic Functions ******************
 function showCard(card, activePlayer) {
-  if (activePlayer['score'] <= 21) {
+  // if (activePlayer['score'] <= 21) {
     let cardImage = document.createElement('img');
     cardImage.src = `images/cards/${card}.png`;
     document.querySelector(activePlayer['div']).appendChild(cardImage);
     hitSound.play();
-  }
+  // }
 }
 
 
@@ -120,7 +121,7 @@ function sleep(ms) {
 }
 async function dealerLogic() {
   blackjackGame['isStand'] = true;
-  if (YOU['score'] < 21) //added logic here
+  if (YOU['score'] <= 21) //added logic here
   {
     while ((DEALER['score']) < 16 && blackjackGame['isStand'] === true) {
       let card = randomCard();
@@ -139,6 +140,7 @@ async function dealerLogic() {
   }
 }
 
+document.querySelector("#your-score").textContent === 'BUST!'
 
 function decideWinner() {
   let winner;
@@ -149,7 +151,7 @@ function decideWinner() {
       // blackjackGame['wins']++;
       winner = YOU;
       // console.log('you win');
-    } else if (player < dealer) {
+    } else if (player < dealer ) {
       // blackjackGame['losses']++;
       winner = DEALER;
       // console.log('you lose');
@@ -179,17 +181,14 @@ function showResult(winner) {
       document.querySelector('#wins').textContent = blackjackGame['wins'];
       message = `You Won!`;
       messageColor = "green";
-      winSound.play();
     } else if (winner === DEALER) {
       document.querySelector('#losses').textContent = blackjackGame['losses'];
       message = "You Lost!";
       messageColor = "red";
-      loseSound.play();
     } else {
       document.querySelector('#draws').textContent = blackjackGame['draws'];
       message = "Its a Draw!";
       messageColor = "orange";
-      loseSound.play();
     }
     document.querySelector('#blackjack-result').textContent = message;
     document.querySelector('#blackjack-result').style.color = messageColor;
@@ -203,11 +202,16 @@ document.getElementById("blackjack-result").addEventListener("DOMNodeInserted", 
     console.log('Win');
     blackjackGame['wins']++;
     showResult(YOU)
+    winSound.play();
 
-  } else if (document.querySelector("#blackjack-result").textContent === "You Lost!"){
+
+
+  } else if (document.querySelector("#blackjack-result").textContent === "You Lost!" ){
     console.log('Lost');
     blackjackGame['losses']++;
-    showResult(DEALER)
+    showResult(DEALER);
+    loseSound.play();
+
 
 
 
@@ -215,8 +219,6 @@ document.getElementById("blackjack-result").addEventListener("DOMNodeInserted", 
       console.log('Draw');
       blackjackGame['draws']++;
       showResult(DRAW)
-
-
   }
 }, false);
 
