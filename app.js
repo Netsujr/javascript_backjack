@@ -30,7 +30,12 @@ function Hit() {
     updateScore(card, YOU);
     showScore(YOU);
   } else {
-    dealerLogic(); //making the hit button to call dealerLogic if the player goes bust
+    blackjackGame['turnsOver'] = true;
+    let winner = decideWinner(DEALER);
+    showResult(winner);
+     //making the hit button to call dealerLogic if the player goes bust
+
+
   }
 }
 function Stand() {
@@ -100,6 +105,10 @@ async function dealerLogic() {
   blackjackGame['isStand'] = true;
   if (YOU['score'] < 21) //added logic here
   {
+    if (blackjackGame['turnsOver'] === true) {
+      document.getElementById("#hit-button").disabled = true;
+      document.getElementById("#stand-button").disabled = true;
+    }
     while ((DEALER['score']) < 16 && blackjackGame['isStand'] === true) {
       let card = randomCard();
       showCard(card, DEALER);
@@ -110,10 +119,11 @@ async function dealerLogic() {
     blackjackGame['turnsOver'] = true;
     let winner = decideWinner();
     showResult(winner);
-  } else { // and here
-    blackjackGame['turnsOver'] = true;
-    let winner = decideWinner(DEALER);
-    showResult(winner);
+
+  // } else { // and here
+  //   blackjackGame['turnsOver'] = true;
+  //   let winner = decideWinner(DEALER);
+  //   showResult(winner);
   }
 }
 function decideWinner() {
