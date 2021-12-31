@@ -39,9 +39,10 @@ function Hit() {
 
 firstTwocards();
 
-
 function firstTwocards() {
-  Hit();
+  setTimeout(function () {
+    Hit();
+  }, 700);
   Hit();
 }
 
@@ -50,18 +51,21 @@ function Stand() {
   dealerLogic();
 }
 function Deal() {
-  if (document.querySelectorAll("span")[0].textContent !== "Let's Play!"
-){
+  if (document.querySelectorAll("span")[0].textContent !== "Let's Play!") {
+
     if (blackjackGame['turnsOver'] === true) {
       blackjackGame['isStand'] = false;
       let yourImages = document.querySelector('#your-box').querySelectorAll('img');
       let dealerImages = document.querySelector('#dealer-box').querySelectorAll('img');
+
       for (image = 0; image < yourImages.length; image++) {
         yourImages[image].remove();
       }
+
       for (image = 0; image < dealerImages.length; image++) {
         dealerImages[image].remove();
       }
+
       YOU['score'] = 0;
       DEALER['score'] = 0;
       document.querySelector('#your-score').textContent = 0;
@@ -72,8 +76,7 @@ function Deal() {
       document.querySelector('#blackjack-result').style.color = 'black';
       blackjackGame['turnsOver'] = true;
       // /will probably add gif removal here!
-      Hit();
-      Hit();
+      firstTwocards();
     }
   }
 }
@@ -159,13 +162,9 @@ function decideWinner() {
       // blackjackGame['draws']++;
       // console.log('you drew');
     }
-  } else if (player > 21 && dealer <= 21) {
+  } else if (player > 21) {
     // blackjackGame['losses']++;
     winner = DEALER;
-    // console.log('you lost');
-    // } else if (player && dealer > 21) {
-    //   blackjackGame['draws']++;
-    //   // console.log('you both Bust');
   }
   // console.log('winner is', winner);
   console.log(blackjackGame);
