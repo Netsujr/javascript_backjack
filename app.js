@@ -8,7 +8,6 @@ let blackjackGame = {
   'losses': 0,
   'draws': 0,
   'Stand': false,
-  'Deal': false,
   'Hit': false,
   // 'win': ['bman', 'dk', 'dk2', 'dk3', 'kirby', 'kirby2', 'link', 'marioK'],
   // 'lose': [],
@@ -27,9 +26,18 @@ document.querySelector('#hit-button').addEventListener('click', Hit);
 document.querySelector('#stand-button').addEventListener('click', Stand);
 document.querySelector('#deal-button').addEventListener('click', Deal);
 // *************** ButtonFunctions ******************
+firstTwocards();
+
+function firstTwocards() {
+  setTimeout(function () {
+    Hit();
+  }, 700);
+  Hit();
+}
+
 function Hit() {
-  
-  if (blackjackGame['isStand'] === false && YOU["score"] < 21) {
+
+  if (blackjackGame['Stand'] === false && YOU["score"] < 21) {
 
     let card = randomCard();
     showCard(card, YOU);
@@ -41,14 +49,6 @@ function Hit() {
   blackjackGame['Hit'] = true;
 }
 
-firstTwocards();
-
-function firstTwocards() {
-  setTimeout(function () {
-    Hit();
-  }, 700);
-  Hit();
-}
 
 function Stand() {
   // console.log('Stand was Hit');
@@ -59,7 +59,7 @@ function Deal() {
   if (document.querySelectorAll("span")[0].textContent !== "Let's Play!") {
 
     if (blackjackGame['turnsOver'] === true) {
-      blackjackGame['isStand'] = false;
+      blackjackGame['Stand'] = false;
       let yourImages = document.querySelector('#your-box').querySelectorAll('img');
       let dealerImages = document.querySelector('#dealer-box').querySelectorAll('img');
 
@@ -129,10 +129,10 @@ function sleep(ms) {
 }
 async function dealerLogic() {
 
-  blackjackGame['isStand'] = true;
+  blackjackGame['Stand'] = true;
   if (YOU['score'] <= 21) //added logic here
   {
-    while ((DEALER['score']) < 16 && blackjackGame['isStand'] === true) {
+    while ((DEALER['score']) < 16 && blackjackGame['Stand'] === true) {
 
       let card = randomCard();
       showCard(card, DEALER);
