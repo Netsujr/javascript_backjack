@@ -7,8 +7,9 @@ let blackjackGame = {
   'wins': 0,
   'losses': 0,
   'draws': 0,
-  'isStand': false,
-  'turnsOver': false,
+  'Stand': false,
+  'Deal': false,
+  'Hit': false,
   // 'win': ['bman', 'dk', 'dk2', 'dk3', 'kirby', 'kirby2', 'link', 'marioK'],
   // 'lose': [],
   // 'draw': []
@@ -27,7 +28,9 @@ document.querySelector('#stand-button').addEventListener('click', Stand);
 document.querySelector('#deal-button').addEventListener('click', Deal);
 // *************** ButtonFunctions ******************
 function Hit() {
+  
   if (blackjackGame['isStand'] === false && YOU["score"] < 21) {
+
     let card = randomCard();
     showCard(card, YOU);
     updateScore(card, YOU);
@@ -35,6 +38,7 @@ function Hit() {
   } else {
     dealerLogic(); //making the hit button to call dealerLogic if the player goes bust
   }
+  blackjackGame['Hit'] = true;
 }
 
 firstTwocards();
@@ -48,6 +52,7 @@ function firstTwocards() {
 
 function Stand() {
   // console.log('Stand was Hit');
+
   dealerLogic();
 }
 function Deal() {
@@ -123,16 +128,19 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 async function dealerLogic() {
+
   blackjackGame['isStand'] = true;
   if (YOU['score'] <= 21) //added logic here
   {
     while ((DEALER['score']) < 16 && blackjackGame['isStand'] === true) {
+
       let card = randomCard();
       showCard(card, DEALER);
       updateScore(card, DEALER);
       showScore(DEALER);
       await sleep(800);
     }
+
     blackjackGame['turnsOver'] = true;
     let winner = decideWinner();
     showResult(winner);
@@ -165,6 +173,7 @@ function decideWinner() {
   } else if (player > 21) {
     // blackjackGame['losses']++;
     winner = DEALER;
+
   }
   // console.log('winner is', winner);
   console.log(blackjackGame);
@@ -175,7 +184,9 @@ function decideWinner() {
 
 function showResult(winner) {
   let message, messageColor;
+
   if (blackjackGame['turnsOver'] === true) {
+
     if (winner === YOU) {
       document.querySelector('#wins').textContent = blackjackGame['wins'];
       message = `You Won!`;
