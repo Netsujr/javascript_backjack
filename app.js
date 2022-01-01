@@ -52,10 +52,14 @@ function Hit() {
 
 function Stand() {
   // console.log('Stand was Hit');
-
+  resetAce();
   dealerLogic();
+  console.log();
 }
+
+
 function Deal() {
+  resetAce();
   if (document.querySelectorAll("span")[0].textContent !== "Let's Play!") {
 
     if (blackjackGame['turnsOver'] === true) {
@@ -92,10 +96,10 @@ function Deal() {
 // *************** Logic Functions ******************
 function showCard(card, activePlayer) {
   // if (activePlayer['score'] <= 21) {
-    let cardImage = document.createElement('img');
-    cardImage.src = `images/cards/${card}.png`;
-    document.querySelector(activePlayer['div']).appendChild(cardImage);
-    hitSound.play();
+  let cardImage = document.createElement('img');
+  cardImage.src = `images/cards/${card}.png`;
+  document.querySelector(activePlayer['div']).appendChild(cardImage);
+  hitSound.play();
   // }
 }
 
@@ -104,18 +108,39 @@ function randomCard() {
   let randomIndex = Math.floor(Math.random() * 13);
   return blackjackGame['cards'][randomIndex];
 }
+
+
 function updateScore(card, activePlayer) {
+  let ace = document.getElementById('ACE');
+  let ACE11 = blackjackGame['cardsMap'][card][1];
   // ACE logic, 1 or 11
   if (card === 'A') {
-    if (activePlayer['score'] + blackjackGame['cardsMap'][card][1] <= 21) {
-      activePlayer['score'] += blackjackGame['cardsMap'][card][1];
-    } else {
-      activePlayer['score'] += blackjackGame['cardsMap'][card][0];
-    }
+    ace.value++;
+    console.log(ace.value);
+    activePlayer['score'] += ACE11;
+
   } else {
+
     activePlayer['score'] += blackjackGame['cardsMap'][card];
   }
+
+  for (let Subtract10 = 1; Subtract10 <= ace.value; Subtract10++) {
+
+    if (activePlayer['score'] > 21) {
+      activePlayer['score'] -= 10;
+      ace.value -= 1;
+    }
+
+  }
+  console.log('These are the current aces', ace.value);
+  console.log('activePlayer: ', activePlayer['score']);
 }
+// else {
+//   activePlayer['score'] += blackjackGame['cardsMap'][card];
+// }
+
+
+
 function showScore(activePlayer) {
   if (activePlayer['score'] > 21) {
     document.querySelector(activePlayer['scoreSpan']).textContent = 'BUST!';
@@ -128,7 +153,7 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 async function dealerLogic() {
-
+  resetAce();
   blackjackGame['Stand'] = true;
   if (YOU['score'] <= 21) //added logic here
   {
@@ -149,6 +174,7 @@ async function dealerLogic() {
     let winner = decideWinner(DEALER);
     showResult(winner);
   }
+
 }
 
 document.querySelector("#your-score").textContent === 'BUST!'
@@ -162,7 +188,7 @@ function decideWinner() {
       // blackjackGame['wins']++;
       winner = YOU;
       // console.log('you win');
-    } else if (player < dealer ) {
+    } else if (player < dealer) {
       // blackjackGame['losses']++;
       winner = DEALER;
       // console.log('you lose');
@@ -207,7 +233,7 @@ function showResult(winner) {
 
 
 document.getElementById("blackjack-result").addEventListener("DOMNodeInserted", function (event) {
-  console.log("This is the event:",event);
+  console.log("This is the event:", event);
   if (document.querySelector("#blackjack-result").textContent === "You Won!") {
     console.log('Win');
     blackjackGame['wins']++;
@@ -216,7 +242,7 @@ document.getElementById("blackjack-result").addEventListener("DOMNodeInserted", 
 
 
 
-  } else if (document.querySelector("#blackjack-result").textContent === "You Lost!" ){
+  } else if (document.querySelector("#blackjack-result").textContent === "You Lost!") {
     console.log('Lost');
     blackjackGame['losses']++;
     showResult(DEALER);
@@ -226,9 +252,9 @@ document.getElementById("blackjack-result").addEventListener("DOMNodeInserted", 
 
 
   } else if (document.querySelector("#blackjack-result").textContent === "Its a Draw!") {
-      console.log('Draw');
-      blackjackGame['draws']++;
-      showResult(DRAW)
+    console.log('Draw');
+    blackjackGame['draws']++;
+    showResult(DRAW)
   }
 }, false);
 
@@ -240,3 +266,8 @@ document.getElementById("blackjack-result").addEventListener("DOMNodeInserted", 
 // let gifImage = document.createElement('img');
 // let winGif = randomWinnerGif();
 // gifImage.src = `gifs/win/${gif}.gif`;
+
+function resetAce() {
+  let ace = document.getElementById('ACE');
+  ace.value = 0;
+}
