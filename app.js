@@ -2,8 +2,8 @@
 let blackjackGame = {
   'you': { 'scoreSpan': '#your-score', 'div': '#your-box', 'score': 0 },
   'dealer': { 'scoreSpan': '#dealer-score', 'div': '#dealer-box', 'score': 0 },
-  'cards': ['6', 'K', 'A'],
-  'cardsMap': { '6': 6, 'K': 10, 'A': [1, 11] },
+  'cards': ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'],
+  'cardsMap': { '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': [1, 11] },
   'wins': 0,
   'losses': 0,
   'draws': 0,
@@ -105,7 +105,7 @@ function showCard(card, activePlayer) {
 
 
 function randomCard() {
-  let randomIndex = Math.floor(Math.random() * 3);
+  let randomIndex = Math.floor(Math.random() * 13);
   return blackjackGame['cards'][randomIndex];
 }
 
@@ -113,7 +113,6 @@ function randomCard() {
 function updateScore(card, activePlayer) {
   let ace = document.getElementById('ACE');
   let ACE11 = blackjackGame['cardsMap'][card][1];
-  let ACE1 = blackjackGame['cardsMap'][card][0];
   // ACE logic, 1 or 11
   if (card === 'A') {
     ace.value++;
