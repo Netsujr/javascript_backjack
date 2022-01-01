@@ -88,8 +88,7 @@ function Deal() {
       firstTwocards();
     }
   }
-}
-
+//one more hidden input, check how cards, if theres 5 && < 21, ru winning fucntion, for player,
 
 
 
