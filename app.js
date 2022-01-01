@@ -14,7 +14,6 @@ let blackjackGame = {
   // 'draw': []
 };
 
-
 const YOU = blackjackGame['you'];
 const DEALER = blackjackGame['dealer'];
 let DRAW;
@@ -54,7 +53,7 @@ function Stand() {
   // console.log('Stand was Hit');
   resetAce();
   dealerLogic();
-  console.log();
+  // console.log();
 }
 
 
@@ -88,23 +87,27 @@ function Deal() {
       firstTwocards();
     }
   }
+}
 //one more hidden input, check how cards, if theres 5 && < 21, ru winning fucntion, for player,
 
 
 
 // *************** Logic Functions ******************
 function showCard(card, activePlayer) {
+  let five = document.getElementById('fiveCards');
   // if (activePlayer['score'] <= 21) {
   let cardImage = document.createElement('img');
   cardImage.src = `images/cards/${card}.png`;
   document.querySelector(activePlayer['div']).appendChild(cardImage);
   hitSound.play();
+  five.value++;
+  console.log('this is how many cards', five.value);
   // }
 }
 
 
 function randomCard() {
-  let randomIndex = Math.floor(Math.random() * 13);
+  let randomIndex = Math.floor(Math.random() * 3);
   return blackjackGame['cards'][randomIndex];
 }
 
@@ -148,12 +151,21 @@ function showScore(activePlayer) {
     document.querySelector(activePlayer['scoreSpan']).textContent = activePlayer['score'];
   }
 }
+
+
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+
 async function dealerLogic() {
   resetAce();
+  let five = document.getElementById('fiveCards');
   blackjackGame['Stand'] = true;
+  if (five.value === 5 && player < 21) {
+    decideWinner();
+  }
+
   if (YOU['score'] <= 21) //added logic here
   {
     while ((DEALER['score']) < 16 && blackjackGame['Stand'] === true) {
@@ -180,8 +192,15 @@ document.querySelector("#your-score").textContent === 'BUST!'
 
 function decideWinner() {
   let winner;
+  let five = document.getElementById('fiveCards');
   let player = (YOU['score']);
   let dealer = (DEALER['score']);
+
+  if (five.value === 5 && player < 21) {
+    winner = YOU;
+    console.log('The CODE reached here!');
+  }
+
   if (player <= 21) {
     if (player > dealer || dealer > 21) {
       // blackjackGame['wins']++;
@@ -198,7 +217,6 @@ function decideWinner() {
   } else if (player > 21) {
     // blackjackGame['losses']++;
     winner = DEALER;
-
   }
   // console.log('winner is', winner);
   console.log(blackjackGame);
@@ -257,16 +275,9 @@ document.getElementById("blackjack-result").addEventListener("DOMNodeInserted", 
   }
 }, false);
 
-// ************gifs************
-// function randomWinnerGif() {
-//   let randomIndex = Math.floor(Math.random() * 8);
-//   return blackjackGame['win'][randomIndex];
-// }
-// let gifImage = document.createElement('img');
-// let winGif = randomWinnerGif();
-// gifImage.src = `gifs/win/${gif}.gif`;
-
 function resetAce() {
   let ace = document.getElementById('ACE');
+  let five = document.getElementById('fiveCards');
   ace.value = 0;
-}
+  five.value = 0;
+};
