@@ -47,7 +47,7 @@ function Hit() {
       dealerLogic(); //making the hit button to call dealerLogic if the player goes bust
     }
     blackjackGame['Hit'] = true;
-    fiveCardsUnder21();
+
   }
 }
 
@@ -101,14 +101,14 @@ function Deal() {
 
 // *************** Logic Functions ******************
 function showCard(card, activePlayer) {
-  let five = document.getElementById('fiveCards');
+  let amountOfCards = document.getElementById('fiveCards');
   // if (activePlayer['score'] <= 21) {
   let cardImage = document.createElement('img');
   cardImage.src = `images/cards/${card}.png`;
   document.querySelector(activePlayer['div']).appendChild(cardImage);
   hitSound.play();
-  five.value++;
-  console.log('this is how many cards', five.value);
+  amountOfCards.value++;
+  console.log('this is how many cards', amountOfCards.value);
   // }
 }
 
@@ -143,6 +143,7 @@ function updateScore(card, activePlayer) {
   }
   console.log('These are the current aces', ace.value);
   console.log('activePlayer: ', activePlayer['score']);
+  fiveCardsUnder21();
 }
 // else {
 //   activePlayer['score'] += blackjackGame['cardsMap'][card];
@@ -156,6 +157,7 @@ function showScore(activePlayer) {
     document.querySelector(activePlayer['scoreSpan']).style.color = 'red';
   } else {
     document.querySelector(activePlayer['scoreSpan']).textContent = activePlayer['score'];
+    fiveCardsUnder21();
   }
 }
 
@@ -197,14 +199,20 @@ function decideWinner() {
   let winner;
   let player = (YOU['score']);
   let dealer = (DEALER['score']);
-  let five = document.getElementById('fiveCards');
+  let amountOfCards = document.getElementById('fiveCards');
 
+  if (amountOfCards.value === '5' && dealer < 21 && dealer > player) {
+    winner = DEALER;
+    blackjackGame['turnsOver'] = true
+    showResult(winner);
+    console.log('DEALER reaches here!!!!!')
 
-  if (five.value === '5' && player < 21) {
+  } else if (amountOfCards.value === '5' && player < 21) {
     winner = YOU;
     blackjackGame['turnsOver'] = true
     showResult(winner);
-    console.log('code reaches here!!!!!');
+    console.log('PLAYER reaches here!!!!!');
+
 
 
   } else if (player <= 21 && winner != YOU) {
@@ -220,6 +228,7 @@ function decideWinner() {
       // blackjackGame['draws']++;
       // console.log('you drew');
     }
+
   } else if (player > 21) {
     // blackjackGame['losses']++;
     winner = DEALER;
@@ -285,16 +294,28 @@ document.getElementById("blackjack-result").addEventListener("DOMNodeInserted", 
 
 function resetAce() {
   let ace = document.getElementById('ACE');
-  let five = document.getElementById('fiveCards');
+  let amountOfCards = document.getElementById('fiveCards');
   ace.value = 0;
-  five.value = 0;
+  amountOfCards.value = 0;
 };
 
 function fiveCardsUnder21() {
-  let five = document.getElementById('fiveCards');
+  let amountOfCards = document.getElementById('fiveCards');
   let player = (YOU['score']);
+  let dealer = (DEALER['score']);
 
-  if (five.value === '5' && player < 21) {
+  if (amountOfCards.value === '5' && player < 21 && player > dealer) {
+    console.log('function is called');
     decideWinner();
+
   }
 }
+
+
+//the order
+// update score
+// check the score
+// more than 21 bust
+// == 21, next player (check who is playing)
+// < 21 (5 cards?), if 5 cards win!
+// otherwise repeat, hit or stand
