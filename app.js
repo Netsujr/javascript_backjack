@@ -185,13 +185,20 @@ async function dealerLogic() {
 
 }
 
-document.querySelector("#your-score").textContent === 'BUST!'
+// document.querySelector("#your-score").textContent === 'BUST!'
 
 function decideWinner() {
   let winner;
-  let five = document.getElementById('fiveCards');
   let player = (YOU['score']);
   let dealer = (DEALER['score']);
+  let five = document.getElementById('fiveCards');
+
+
+  if (five.value === '5' && player < 21) {
+    winner = YOU;
+    console.log('code reaches here!!!!!');
+    showResult(winner);
+  }
 
   if (player <= 21) {
     if (player > dealer || dealer > 21) {
@@ -251,14 +258,11 @@ document.getElementById("blackjack-result").addEventListener("DOMNodeInserted", 
     winSound.play();
 
 
-
   } else if (document.querySelector("#blackjack-result").textContent === "You Lost!") {
     console.log('Lost');
     blackjackGame['losses']++;
     showResult(DEALER);
     loseSound.play();
-
-
 
 
   } else if (document.querySelector("#blackjack-result").textContent === "Its a Draw!") {
@@ -278,12 +282,8 @@ function resetAce() {
 function fiveCardsUnder21() {
   let five = document.getElementById('fiveCards');
   let player = (YOU['score']);
-  // let winner;
 
   if (five.value === '5' && player < 21) {
-    showResult(YOU);
-    blackjackGame['wins']++;
-    winSound.play();
-    console.log('The CODE reached here!');
+    decideWinner();
   }
 }
