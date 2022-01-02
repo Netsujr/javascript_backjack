@@ -197,6 +197,7 @@ function decideWinner() {
   if (five.value === '5' && player < 21) {
     winner = YOU;
     console.log('code reaches here!!!!!');
+    blackjackGame['turnsOver'] = true
     showResult(winner);
   }
 
