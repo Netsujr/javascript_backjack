@@ -114,7 +114,7 @@ function showCard(card, activePlayer) {
 
 
 function randomCard() {
-  let randomIndex = Math.floor(Math.random() * 3);
+  let randomIndex = Math.floor(Math.random() * 13);
   return blackjackGame['cards'][randomIndex];
 }
 
