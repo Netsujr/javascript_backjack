@@ -201,13 +201,7 @@ function decideWinner() {
   let dealer = (DEALER['score']);
   let amountOfCards = document.getElementById('fiveCards');
 
-  if (amountOfCards.value === '5' && dealer < 21 && dealer > player) {
-    winner = DEALER;
-    blackjackGame['turnsOver'] = true
-    showResult(winner);
-    console.log('DEALER reaches here!!!!!')
-
-  } else if (amountOfCards.value === '5' && player < 21) {
+   if (amountOfCards.value === '5' && player < 21 && player > dealer) {
     winner = YOU;
     blackjackGame['turnsOver'] = true
     showResult(winner);
