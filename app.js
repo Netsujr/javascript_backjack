@@ -108,7 +108,7 @@ function showCard(card, activePlayer) {
   document.querySelector(activePlayer['div']).appendChild(cardImage);
   hitSound.play();
   amountOfCards.value++;
-  console.log('this is how many cards', amountOfCards.value);
+  // console.log('this is how many cards', amountOfCards.value);
   // }
 }
 
@@ -125,7 +125,7 @@ function updateScore(card, activePlayer) {
   // ACE logic, 1 or 11
   if (card === 'A') {
     ace.value++;
-    console.log(ace.value);
+    // console.log(ace.value);
     activePlayer['score'] += ACE11;
 
   } else {
@@ -141,8 +141,8 @@ function updateScore(card, activePlayer) {
     }
 
   }
-  console.log('These are the current aces', ace.value);
-  console.log('activePlayer: ', activePlayer['score']);
+  // console.log('These are the current aces', ace.value);
+  // console.log('activePlayer: ', activePlayer['score']);
   fiveCardsUnder21();
 }
 // else {
@@ -205,7 +205,7 @@ function decideWinner() {
     winner = YOU;
     blackjackGame['turnsOver'] = true
     showResult(winner);
-    console.log('PLAYER reaches here!!!!!');
+    // console.log('PLAYER reaches here!!!!!');
 
 
 
@@ -235,7 +235,7 @@ function decideWinner() {
 
 
 function showResult(winner) {
-  console.log(blackjackGame);
+  // console.log(blackjackGame);
   let message, messageColor;
 
   if (blackjackGame['turnsOver'] === true) {
@@ -263,23 +263,23 @@ function showResult(winner) {
 
 
 document.getElementById("blackjack-result").addEventListener("DOMNodeInserted", function (event) {
-  console.log("This is the event:", event);
+  // console.log("This is the event:", event);
   if (document.querySelector("#blackjack-result").textContent === "You Won!") {
-    console.log('Win');
+    // console.log('Win');
     blackjackGame['wins']++;
     showResult(YOU)
     winSound.play();
 
 
   } else if (document.querySelector("#blackjack-result").textContent === "You Lost!") {
-    console.log('Lost');
+    // console.log('Lost');
     blackjackGame['losses']++;
     showResult(DEALER);
     loseSound.play();
 
 
   } else if (document.querySelector("#blackjack-result").textContent === "Its a Draw!") {
-    console.log('Draw');
+    // console.log('Draw');
     blackjackGame['draws']++;
     showResult(DRAW)
   }
@@ -299,7 +299,7 @@ function fiveCardsUnder21() {
   let dealer = (DEALER['score']);
 
   if (amountOfCards.value === '5' && player < 21 && player > dealer) {
-    console.log('function is called');
+    // console.log('function is called');
     decideWinner();
 
   }
